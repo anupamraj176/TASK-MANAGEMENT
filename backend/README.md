@@ -44,3 +44,14 @@ backend/
 ```bash
 npm run test
 ```
+
+## Task APIs (Phase 4)
+
+Base: `http://localhost:5000/api/tasks`
+
+- `POST /` create task (supports up to 3 PDF attachments via `documents` form-data)
+- `GET /` list tasks with filtering, sorting, pagination
+- `GET /:id` task detail (ownership enforced)
+- `PUT /:id` update task + optional attachment add/replace
+- `DELETE /:id` delete task + cleanup attachments
+- `GET /:id/documents/:docId` download a specific attachment

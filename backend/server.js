@@ -10,6 +10,7 @@ const uploadRoutes = require('./routes/uploadRoutes');
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const userRoutes = require('./routes/userRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 
 const app = express();
 
@@ -28,6 +29,7 @@ connectDB();
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/tasks', taskRoutes);
 app.use('/api', uploadRoutes);
 
 // Health check endpoint
@@ -85,5 +87,6 @@ app.listen(PORT, () => {
   console.log(`🔐 Auth Base URL: http://localhost:${PORT}/api/auth`);
   console.log(`👨‍💼 Admin Base URL: http://localhost:${PORT}/api/admin`);
   console.log(`👤 Users Base URL: http://localhost:${PORT}/api/users`);
+  console.log(`🗂️ Tasks Base URL: http://localhost:${PORT}/api/tasks`);
   console.log(`💚 Health Check: http://localhost:${PORT}/health\n`);
 });

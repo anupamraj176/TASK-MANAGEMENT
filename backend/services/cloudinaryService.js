@@ -20,4 +20,8 @@ const uploadToCloudinary = (fileBuffer, fileName) => {
   });
 };
 
-module.exports = { uploadToCloudinary };
+const deleteFromCloudinary = (publicId) => {
+  return cloudinary.uploader.destroy(publicId, { resource_type: 'raw' });
+};
+
+module.exports = { uploadToCloudinary, deleteFromCloudinary };
