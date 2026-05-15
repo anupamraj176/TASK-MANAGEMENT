@@ -4,9 +4,11 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const connectDB = require('./config/database');
-
+const cookieParser = require('cookie-parser');
 // Routes
 const uploadRoutes = require('./routes/uploadRoutes');
+const authRoutes = require('./routes/authRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
@@ -16,11 +18,14 @@ app.use(cors());
 app.use(morgan('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(cookieParser());
 
 // Connect to MongoDB
 connectDB();
 
 // API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api', uploadRoutes);
 
 // Health check endpoint
@@ -73,7 +78,9 @@ app.use((err, _req, res, _next) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`\n Server running on http://localhost:${PORT}`);
-  console.log(` API Base URL: http://localhost:${PORT}/api`);
-  console.log(` Health Check: http://localhost:${PORT}/health\n`);
+  console.log(`\n🚀 Server running on http://localhost:${PORT}`);
+  console.log(`📝 API Base URL: http://localhost:${PORT}/api`);
+  console.log(`🔐 Auth Base URL: http://localhost:${PORT}/api/auth`);
+  console.log(`👨‍💼 Admin Base URL: http://localhost:${PORT}/api/admin`);
+  console.log(`💚 Health Check: http://localhost:${PORT}/health\n`);
 });
