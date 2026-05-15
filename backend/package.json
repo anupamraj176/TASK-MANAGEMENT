@@ -8,8 +8,11 @@
     "start": "cross-env NODE_ENV=production node server.js",
     "dev": "cross-env NODE_ENV=development nodemon server.js",
     "test:unit": "jest --coverage",
-    "test:integration": "jest --testPathPattern=__tests__/integration"
-     
+    "test:integration": "jest --testPathPattern=__tests__/integration",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [],
   "author": "",
@@ -36,8 +39,10 @@
   },
   "devDependencies": {
     "cross-env": "^10.1.0",
+    "eslint": "^8.0.0",
     "jest": "^30.4.2",
     "nodemon": "^3.1.14",
+    "prettier": "^3.0.0",
     "supertest": "^7.2.2"
   }
 }
