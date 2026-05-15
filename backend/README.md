@@ -39,10 +39,6 @@ backend/
 └── package.json     # Dependencies
 ```
 
-## API Documentation
-
-See the API endpoints section below for available endpoints.
-
 ## Testing
 
 ```bash

@@ -1,7 +1,15 @@
 const jwt = require('jsonwebtoken');
 
 const verifyAuth = (req, res, next) => {
-  const token = req.cookies.token;
+  let token = req.cookies && req.cookies.token;
+
+  if (!token && req.headers && req.headers.cookie) {
+    const cookies = req.headers.cookie.split(';').map((cookie) => cookie.trim());
+    const tokenCookie = cookies.find((cookie) => cookie.startsWith('token='));
+    if (tokenCookie) {
+      token = decodeURIComponent(tokenCookie.substring('token='.length));
+    }
+  }
 
   if (!token) {
     return res.status(401).json({ success: false, message: 'Unauthorized - no token provided' });
