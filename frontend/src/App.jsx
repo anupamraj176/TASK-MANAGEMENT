@@ -11,6 +11,7 @@ import TaskDetailPage from './pages/tasks/TaskDetailPage'
 import LoadingSpinner from './components/LoadingSpinner'
 import ProtectedRoute from './routes/ProtectedRoute'
 import AdminRoute from './routes/AdminRoute'
+import UsersPage from './pages/admin/UsersPage'
 import { useAuthStore } from './store/authStore'
 import { Toaster } from 'react-hot-toast'
 
@@ -72,6 +73,14 @@ function App() {
           element={
             <AdminRoute>
               <TaskListPage />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <AdminRoute>
+              <UsersPage />
             </AdminRoute>
           }
         />

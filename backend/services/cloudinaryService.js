@@ -6,7 +6,7 @@ const uploadToCloudinary = (fileBuffer, fileName) => {
     const stream = cloudinary.uploader.upload_stream(
       {
         resource_type: 'raw',
-        public_id: `TASK_MANAGEMENT/${Date.now()}-${path.parse(fileName).name}`,
+        public_id: `TASK_MANAGEMENT/${Date.now()}-${path.parse(fileName).name.trim().replace(/\s+/g, '_')}`,
         overwrite: true,
         type: 'upload',
       },

@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { taskService } from '../services/taskService';
+import { useSocket } from './useSocket';
 
 export function useTask(id) {
+  const socket = useSocket();
   const [task, setTask] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,6 +25,34 @@ export function useTask(id) {
   useEffect(() => {
     fetchTask();
   }, [fetchTask]);
+
+  // Real-time socket event listeners for this specific task
+  useEffect(() => {
+    if (!socket || !id) return;
+
+    const handleTaskUpdated = (updatedTask) => {
+      const updatedId = updatedTask._id || updatedTask.id;
+      if (updatedId === id) {
+        setTask(updatedTask);
+      }
+    };
+
+    const handleTaskDeleted = (deletedTask) => {
+      const deletedId = deletedTask._id || deletedTask.id;
+      if (deletedId === id) {
+        setTask(null);
+        setError('This task has been deleted.');
+      }
+    };
+
+    socket.on('task:updated', handleTaskUpdated);
+    socket.on('task:deleted', handleTaskDeleted);
+
+    return () => {
+      socket.off('task:updated', handleTaskUpdated);
+      socket.off('task:deleted', handleTaskDeleted);
+    };
+  }, [socket, id]);
 
   const updateTask = useCallback(
     async (formData) => {

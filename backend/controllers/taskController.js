@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Task = require('../models/Task');
 const User = require('../models/User');
 const { uploadToCloudinary, deleteFromCloudinary } = require('../services/cloudinaryService');
+const { getIO } = require('../config/socket');
 
 const MAX_FILES_PER_TASK = parseInt(process.env.MAX_FILES_PER_TASK) || 3;
 
@@ -214,6 +215,12 @@ const createTask = async (req, res) => {
 
     await task.populate('assignedTo', 'name email profileImage');
 
+    try {
+      getIO().emit('task:created', task);
+    } catch (err) {
+      console.error('Socket emit error:', err.message);
+    }
+
     res.status(201).json({ success: true, task });
   } catch (error) {
     console.error('Create task error:', error);
@@ -343,6 +350,12 @@ const updateTask = async (req, res) => {
 
     await task.populate('assignedTo', 'name email profileImage');
 
+    try {
+      getIO().emit('task:updated', task);
+    } catch (err) {
+      console.error('Socket emit error:', err.message);
+    }
+
     res.status(200).json({ success: true, task });
   } catch (error) {
     console.error('Update task error:', error);
@@ -370,6 +383,12 @@ const deleteTask = async (req, res) => {
     }
 
     await Task.findByIdAndDelete(task._id);
+
+    try {
+      getIO().emit('task:deleted', { _id: task._id });
+    } catch (err) {
+      console.error('Socket emit error:', err.message);
+    }
 
     res.status(200).json({ success: true, message: 'Task deleted successfully' });
   } catch (error) {
