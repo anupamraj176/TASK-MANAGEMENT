@@ -54,7 +54,7 @@ function LoginPage({ role = 'user' }) {
         <Input
           icon={Lock}
           type="password"
-          placeholder="••••••••"
+          placeholder="Enter your password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           autoComplete="current-password"
