@@ -53,7 +53,7 @@ function SignUpPage({ role = 'user' }) {
         <Input
           icon={User}
           type="text"
-          placeholder="Alex Carter"
+          placeholder="Enter your full name"
           value={name}
           onChange={(event) => setName(event.target.value)}
           autoComplete="name"
@@ -64,7 +64,7 @@ function SignUpPage({ role = 'user' }) {
         <Input
           icon={Mail}
           type="email"
-          placeholder="you@example.com"
+          placeholder="Enter your email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           autoComplete="email"
