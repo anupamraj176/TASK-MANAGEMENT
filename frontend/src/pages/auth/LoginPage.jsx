@@ -9,13 +9,37 @@ import { useAuthStore } from '../../store/authStore'
 function LoginPage({ role = 'user' }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { login, isLoading, error } = useAuthStore()
+  const [errors, setErrors] = useState({})
+  const { login, isLoading, error: authError } = useAuthStore()
   const navigate = useNavigate()
 
   const isAdmin = role === 'admin'
 
+  const validateField = (field, value) => {
+    let error = ''
+    if (field === 'email') {
+      if (!value) error = 'Email is required'
+      else if (!/\S+@\S+\.\S+/.test(value)) error = 'Please enter a valid email address'
+    }
+    if (field === 'password') {
+      if (!value) error = 'Password is required'
+    }
+    setErrors(prev => ({ ...prev, [field]: error }))
+    return !error
+  }
+
+  const handleBlur = (field, value) => {
+    validateField(field, value)
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault()
+    
+    const isEmailValid = validateField('email', email)
+    const isPasswordValid = validateField('password', password)
+    
+    if (!isEmailValid || !isPasswordValid) return
+
     try {
       await login(email, password, role)
       navigate(isAdmin ? '/admin/dashboard' : '/dashboard')
@@ -33,33 +57,45 @@ function LoginPage({ role = 'user' }) {
           : 'Log in to keep your tasks moving forward.'
       }
     >
-      {error && (
+      {authError && (
         <div className="mb-4 rounded-xl border border-coral/20 bg-coral/10 px-3 py-2 text-xs text-coral">
-          {error}
+          {authError}
         </div>
       )}
-      <form onSubmit={handleSubmit}>
-        <label className="mb-1 block text-xs font-medium text-slate">Email</label>
-        <Input
-          icon={Mail}
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          autoComplete="email"
-          required
-        />
+      <form onSubmit={handleSubmit} noValidate>
+        <div className="mb-4">
+          <label className="mb-1 block text-xs font-medium text-slate">Email</label>
+          <Input
+            icon={Mail}
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(event) => {
+              setEmail(event.target.value)
+              if (errors.email) validateField('email', event.target.value)
+            }}
+            onBlur={(e) => handleBlur('email', e.target.value)}
+            autoComplete="email"
+          />
+          {errors.email && <p className="mt-1 text-xs text-coral">{errors.email}</p>}
+        </div>
 
-        <label className="mb-1 block text-xs font-medium text-slate">Password</label>
-        <Input
-          icon={Lock}
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          autoComplete="current-password"
-          required
-        />
+        <div className="mb-4">
+          <label className="mb-1 block text-xs font-medium text-slate">Password</label>
+          <Input
+            icon={Lock}
+            type="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(event) => {
+              setPassword(event.target.value)
+              if (errors.password) validateField('password', event.target.value)
+            }}
+            onBlur={(e) => handleBlur('password', e.target.value)}
+            autoComplete="current-password"
+          />
+          {errors.password && <p className="mt-1 text-xs text-coral">{errors.password}</p>}
+        </div>
 
         <div className="mb-6 flex items-center justify-between text-xs text-slate">
           <span>Use your registered credentials.</span>

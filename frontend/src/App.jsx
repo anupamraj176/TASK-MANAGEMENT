@@ -12,6 +12,8 @@ import LoadingSpinner from './components/LoadingSpinner'
 import ProtectedRoute from './routes/ProtectedRoute'
 import AdminRoute from './routes/AdminRoute'
 import UsersPage from './pages/admin/UsersPage'
+import NotFoundPage from './pages/NotFoundPage'
+import ErrorBoundary from './components/ErrorBoundary'
 import { useAuthStore } from './store/authStore'
 import { Toaster } from 'react-hot-toast'
 
@@ -27,8 +29,9 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Toaster position="top-right" />
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<Home />} />
 
@@ -85,9 +88,10 @@ function App() {
           }
         />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
+    </ErrorBoundary>
   )
 }
 

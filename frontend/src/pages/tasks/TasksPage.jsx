@@ -112,14 +112,14 @@ export default function TasksPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
         {/* Page header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h1 className="text-2xl font-semibold text-[#1A1A2E]">Tasks</h1>
             <p className="text-sm text-[#8B8FA8] mt-0.5">
               {pagination.total > 0 ? `${pagination.total} task${pagination.total !== 1 ? 's' : ''}` : 'Manage your work'}
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             {user?.role === 'admin' && (
               <Link
                 to="/admin/users"

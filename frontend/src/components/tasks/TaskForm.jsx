@@ -72,15 +72,30 @@ export default function TaskForm({ task = null, onSuccess, onCancel }) {
       .catch(() => {});
   }, [isAdmin]);
 
-  const set = (field) => (e) =>
+  const set = (field) => (e) => {
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
+    if (errors[field]) validateField(field, e.target.value);
+  };
 
-  const validate = () => {
-    const errs = {};
-    if (!form.title.trim()) errs.title = 'Title is required.';
-    if (form.title.length > 200) errs.title = 'Title must be under 200 characters.';
-    if (!form.dueDate) errs.dueDate = 'Due date is required.';
-    return errs;
+  const validateField = (field, value) => {
+    let error = '';
+    if (field === 'title') {
+      if (!value.trim()) error = 'Title is required.';
+      else if (value.length > 200) error = 'Title must be under 200 characters.';
+    }
+    if (field === 'dueDate') {
+      if (!value) error = 'Due date is required.';
+    }
+    setErrors((prev) => ({ ...prev, [field]: error }));
+    return !error;
+  };
+
+  const handleBlur = (field, value) => validateField(field, value);
+
+  const validateAll = () => {
+    const isTitleValid = validateField('title', form.title);
+    const isDateValid = validateField('dueDate', form.dueDate);
+    return isTitleValid && isDateValid;
   };
 
   const handleRemoveExisting = (docId) => {
@@ -90,9 +105,7 @@ export default function TaskForm({ task = null, onSuccess, onCancel }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const errs = validate();
-    setErrors(errs);
-    if (Object.keys(errs).length > 0) return;
+    if (!validateAll()) return;
 
     setSubmitting(true);
     setServerError('');
@@ -147,6 +160,7 @@ export default function TaskForm({ task = null, onSuccess, onCancel }) {
           type="text"
           value={form.title}
           onChange={set('title')}
+          onBlur={(e) => handleBlur('title', e.target.value)}
           placeholder="What needs to be done?"
           className={inputClass}
           maxLength={200}
@@ -198,6 +212,7 @@ export default function TaskForm({ task = null, onSuccess, onCancel }) {
           type="date"
           value={form.dueDate}
           onChange={set('dueDate')}
+          onBlur={(e) => handleBlur('dueDate', e.target.value)}
           className={inputClass}
           min={new Date().toISOString().substring(0, 10)}
         />
