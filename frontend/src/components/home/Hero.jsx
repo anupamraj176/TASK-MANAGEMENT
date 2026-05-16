@@ -148,7 +148,7 @@ export default function Hero() {
           {/* CTA Buttons */}
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 48 }}>
             <a
-              href="/user/signup"
+              href="/signup"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '14px 28px',

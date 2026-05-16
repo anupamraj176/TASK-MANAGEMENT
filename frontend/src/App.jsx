@@ -1,17 +1,67 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
-import Home   from './pages/Home';
+import { useEffect } from 'react'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import Home from './pages/Home'
+import LoginPage from './pages/auth/LoginPage'
+import SignUpPage from './pages/auth/SignUpPage'
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage'
+import ResetPasswordPage from './pages/auth/ResetPasswordPage'
+import EmailVerification from './pages/auth/EmailVerification'
+import Dashboard from './pages/Dashboard'
+import AdminDashboard from './pages/AdminDashboard'
+import LoadingSpinner from './components/LoadingSpinner'
+import ProtectedRoute from './routes/ProtectedRoute'
+import AdminRoute from './routes/AdminRoute'
+import { useAuthStore } from './store/authStore'
 
+function App() {
+  const { checkAuth, isCheckingAuth } = useAuthStore()
 
-export default function App() {
+  useEffect(() => {
+    checkAuth()
+  }, [checkAuth])
+
+  if (isCheckingAuth) {
+    return <LoadingSpinner />
+  }
+
   return (
     <BrowserRouter>
-      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+
+        <Route path="/login" element={<LoginPage role="user" />} />
+        <Route path="/login/admin" element={<LoginPage role="admin" />} />
+
+        <Route path="/signup" element={<SignUpPage role="user" />} />
+        <Route path="/signup/admin" element={<SignUpPage role="admin" />} />
+
+        <Route path="/forgot" element={<ForgotPasswordPage role="user" />} />
+        <Route path="/forgot/admin" element={<ForgotPasswordPage role="admin" />} />
+
+        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+        <Route path="/verify-email" element={<EmailVerification />} />
+
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminRoute>
+              <AdminDashboard />
+            </AdminRoute>
+          }
+        />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-      <Footer />
     </BrowserRouter>
-  );
+  )
 }
+
+export default App

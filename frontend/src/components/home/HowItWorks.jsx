@@ -182,7 +182,7 @@ export default function HowItWorks() {
             }}>Start free. No credit card required.</p>
           </div>
           <div style={{ display: 'flex', gap: 12 }}>
-            <a href="/user/signup" style={{
+            <a href="/signup" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               padding: '12px 24px',
               background: 'var(--iris)',
@@ -196,7 +196,7 @@ export default function HowItWorks() {
             >
               👤 User Sign Up
             </a>
-            <a href="/admin/signup" style={{
+            <a href="/signup/admin" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               padding: '12px 24px',
               background: 'transparent',

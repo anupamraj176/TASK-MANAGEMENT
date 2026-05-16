@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 const NAV_LINKS = [
   { label: 'Features',    href: '#features' },
@@ -71,9 +72,9 @@ function AuthDropdown({ label, color, links, isOpen, onToggle }) {
           zIndex: 100,
         }}>
           {links.map(link => (
-            <a
+            <Link
               key={link.label}
-              href={link.href}
+              to={link.href}
               style={{
                 display: 'flex', alignItems: 'center', gap: 10,
                 padding: '12px 16px',
@@ -94,7 +95,7 @@ function AuthDropdown({ label, color, links, isOpen, onToggle }) {
                 fontSize: 14,
               }}>{link.icon}</span>
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
       )}
@@ -116,12 +117,12 @@ export default function Navbar() {
   }, []);
 
   const userLinks = [
-    { label: 'Log In',   href: '/user/login',  icon: '🔑' },
-    { label: 'Sign Up',  href: '/user/signup', icon: '✨' },
+    { label: 'Log In',   href: '/login',  icon: '🔑' },
+    { label: 'Sign Up',  href: '/signup', icon: '✨' },
   ];
   const adminLinks = [
-    { label: 'Admin Login',  href: '/admin/login',  icon: '🛡️' },
-    { label: 'Admin Sign Up', href: '/admin/signup', icon: '⚙️' },
+    { label: 'Admin Login',  href: '/login/admin',  icon: '🛡️' },
+    { label: 'Admin Sign Up', href: '/signup/admin', icon: '⚙️' },
   ];
 
   return (
@@ -143,7 +144,7 @@ export default function Navbar() {
       }}>
 
         {/* Logo */}
-        <a href="/" style={{
+        <Link to="/" style={{
           display: 'flex', alignItems: 'center', gap: 10,
           textDecoration: 'none',
         }}>
@@ -164,7 +165,7 @@ export default function Navbar() {
           }}>
             Task<span style={{ color: 'var(--iris)' }}>Flow</span>
           </span>
-        </a>
+        </Link>
 
         {/* Desktop nav links */}
         <div style={{
