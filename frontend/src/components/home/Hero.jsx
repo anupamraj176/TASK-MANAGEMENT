@@ -107,13 +107,6 @@ export default function Hero() {
               boxShadow: '0 0 0 3px var(--iris)40',
               animation: 'ping 1.5s ease infinite',
             }}/>
-            <span style={{
-              fontFamily: 'var(--font-display)', fontSize: 12,
-              fontWeight: 600, color: 'var(--iris)',
-              letterSpacing: '0.04em', textTransform: 'uppercase',
-            }}>
-              Now in Beta — Try Free
-            </span>
           </div>
 
           {/* Headline */}
@@ -270,11 +263,11 @@ export default function Hero() {
           />
 
           {/* Floating icons */}
-          <FloatIcon src={rocket}    size={64}  delay="0s"    duration="4.5s" style={{ top: '4%',  right: '2%'  }} />
+          <FloatIcon src={rocket}    size={64}  delay="0s"    duration="4.5s" style={{ top: '4%',  right: '-5%'  }} />
           <FloatIcon src={trophy}    size={56}  delay="0.8s"  duration="5s"   style={{ top: '12%', left: '0%'  }} />
-          <FloatIcon src={fireStreak} size={52} delay="1.6s"  duration="3.8s" style={{ bottom: '20%', right: '0%' }} />
-          <FloatIcon src={brainBulb} size={50}  delay="2.4s"  duration="5.2s" style={{ bottom: '8%',  left: '5%' }} />
-          <FloatIcon src={celebration} size={44} delay="3s"   duration="4s"   style={{ top: '40%', right: '-2%' }} />
+          <FloatIcon src={fireStreak} size={52} delay="1.6s"  duration="3.8s" style={{ bottom: '10%', right: '0%' }} />
+          <FloatIcon src={brainBulb} size={50}  delay="2.4s"  duration="5.2s" style={{ bottom: '20%',  left: '-5%' }} />
+          <FloatIcon src={celebration} size={44} delay="3s"   duration="4s"   style={{ top: '40%', right: '2%' }} />
 
           {/* Stat badges */}
           <StatBadge
