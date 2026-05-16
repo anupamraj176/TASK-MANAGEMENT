@@ -72,9 +72,8 @@ export default function Hero() {
 
   return (
     <section style={{
-      minHeight: '100vh',
-      paddingTop: 'calc(var(--nav-height) + 40px)',
-      paddingBottom: 80,
+      height: '100vh',
+      paddingTop: 'calc(var(--nav-height))',
       background: `
         radial-gradient(ellipse 80% 60% at 60% 0%, #EEF0FB 0%, transparent 60%),
         radial-gradient(ellipse 40% 40% at 90% 80%, #E8EBFA 0%, transparent 50%),
@@ -172,31 +171,6 @@ export default function Hero() {
               }}
             >
               <span>🚀</span> Get Started Free
-            </a>
-            <a
-              href="#how-it-works"
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                padding: '14px 28px',
-                background: 'transparent',
-                color: 'var(--midnight)',
-                textDecoration: 'none',
-                borderRadius: 12,
-                fontFamily: 'var(--font-display)',
-                fontWeight: 600, fontSize: 15,
-                border: '2px solid var(--pebble)',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = 'var(--cloud)';
-                e.currentTarget.style.borderColor = 'var(--iris)';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.borderColor = 'var(--pebble)';
-              }}
-            >
-              See How It Works →
             </a>
           </div>
 
@@ -297,15 +271,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Wave divider */}
-      <div style={{ marginTop: 60 }}>
-        <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block', width: '100%' }}>
-          <path
-            d="M0,40 C240,0 480,60 720,40 C960,20 1200,60 1440,30 L1440,60 L0,60 Z"
-            fill="var(--cloud)"
-          />
-        </svg>
-      </div>
+
 
       <style>{`
         @media (max-width: 900px) {

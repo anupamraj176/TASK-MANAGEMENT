@@ -1,12 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
-const NAV_LINKS = [
-  { label: 'Features',    href: '#features' },
-  { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Gamification', href: '#gamification' },
-  { label: 'Team',        href: '#team' },
-];
+const NAV_LINKS = [];
 
 function AuthDropdown({ label, color, links, isOpen, onToggle }) {
   const ref = useRef(null);
@@ -105,10 +100,8 @@ function AuthDropdown({ label, color, links, isOpen, onToggle }) {
 
 export default function Navbar() {
   const [scrolled, setScrolled]       = useState(false);
-  const [mobileOpen, setMobileOpen]   = useState(false);
   const [userDropOpen, setUserDrop]   = useState(false);
   const [adminDropOpen, setAdminDrop] = useState(false);
-  const [activeSection, setActive]    = useState('');
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -167,37 +160,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop nav links */}
-        <div style={{
-          display: 'flex', gap: 4,
-          '@media(max-width:768px)': { display: 'none' },
-        }} className="nav-links">
-          {NAV_LINKS.map(link => (
-            <a
-              key={link.label}
-              href={link.href}
-              style={{
-                padding: '6px 14px',
-                fontFamily: 'var(--font-body)',
-                fontWeight: 500, fontSize: 14,
-                color: 'var(--midnight)',
-                textDecoration: 'none',
-                borderRadius: 8,
-                transition: 'background 0.15s, color 0.15s',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = 'var(--mist)';
-                e.currentTarget.style.color = 'var(--iris)';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.color = 'var(--midnight)';
-              }}
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
+
 
         {/* Auth Buttons */}
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
@@ -219,30 +182,9 @@ export default function Navbar() {
 
       </div>
 
-      {/* Mobile nav (hidden by default, toggled via mobileOpen) */}
-      {mobileOpen && (
-        <div style={{
-          background: '#fff', borderTop: '1px solid var(--pebble)',
-          padding: '16px 24px',
-        }}>
-          {NAV_LINKS.map(link => (
-            <a key={link.label} href={link.href} style={{
-              display: 'block', padding: '12px 0',
-              fontFamily: 'var(--font-body)', fontWeight: 500, fontSize: 15,
-              color: 'var(--midnight)', textDecoration: 'none',
-              borderBottom: '1px solid var(--cloud)',
-            }}>
-              {link.label}
-            </a>
-          ))}
-        </div>
-      )}
 
-      <style>{`
-        @media (max-width: 768px) {
-          .nav-links { display: none !important; }
-        }
-      `}</style>
+
+
     </nav>
   );
 }
