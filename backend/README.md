@@ -45,6 +45,10 @@ backend/
 npm run test
 ```
 
+## API Documentation
+
+- Swagger UI: `http://localhost:5000/api/docs`
+
 ## Task APIs (Phase 4)
 
 Base: `http://localhost:5000/api/tasks`
