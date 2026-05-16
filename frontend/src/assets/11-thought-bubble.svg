@@ -1,0 +1,9 @@
+<svg width="260" height="230" viewBox="0 0 260 230" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="130" cy="90" rx="112" ry="70" fill="#FBEAF0" stroke="#D4537E" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="62" cy="172" r="14" fill="#FBEAF0" stroke="#D4537E" stroke-width="2.2"/>
+  <circle cx="46" cy="196" r="10" fill="#FBEAF0" stroke="#D4537E" stroke-width="2"/>
+  <circle cx="33" cy="214" r="7" fill="#FBEAF0" stroke="#D4537E" stroke-width="1.8"/>
+  <text x="130" y="78" font-family="'Comic Sans MS',cursive" font-size="15" fill="#993556" text-anchor="middle">what if i could</text>
+  <text x="130" y="100" font-family="'Comic Sans MS',cursive" font-size="16" font-weight="bold" fill="#D4537E" text-anchor="middle">finish early?</text>
+  <text x="130" y="220" font-family="'Comic Sans MS',cursive" font-size="14" fill="#D4537E" text-anchor="middle">big ideas</text>
+</svg>

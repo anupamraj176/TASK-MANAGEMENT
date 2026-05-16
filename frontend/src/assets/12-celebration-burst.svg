@@ -1,0 +1,18 @@
+<svg width="220" height="220" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="110" cy="102" r="62" fill="#FAEEDA" stroke="#EF9F27" stroke-width="2.5" stroke-dasharray="8,5"/>
+  <path d="M110,68 L118,92 L144,92 L123,108 L131,132 L110,116 L89,132 L97,108 L76,92 L102,92 Z" fill="#EF9F27" stroke="#854F0B" stroke-width="1.5"/>
+  <rect x="38" y="24" width="12" height="18" rx="3" fill="#D4537E" transform="rotate(20 44 33)"/>
+  <rect x="168" y="28" width="12" height="18" rx="3" fill="#534AB7" transform="rotate(-15 174 37)"/>
+  <rect x="28" y="152" width="12" height="15" rx="3" fill="#1D9E75" transform="rotate(35 34 159)"/>
+  <rect x="178" y="160" width="12" height="15" rx="3" fill="#D85A30" transform="rotate(-25 184 167)"/>
+  <rect x="88" y="18" width="10" height="15" rx="3" fill="#FAC775" transform="rotate(10 93 25)"/>
+  <rect x="136" y="166" width="10" height="15" rx="3" fill="#7F77DD" transform="rotate(-40 141 173)"/>
+  <circle cx="52" cy="74" r="6" fill="#F09595"/>
+  <circle cx="168" cy="68" r="5" fill="#5DCAA5"/>
+  <circle cx="56" cy="170" r="5" fill="#FAC775"/>
+  <circle cx="164" cy="176" r="6" fill="#AFA9EC"/>
+  <circle cx="42" cy="116" r="4" fill="#7F77DD"/>
+  <circle cx="178" cy="122" r="4" fill="#EF9F27"/>
+  <text x="110" y="190" font-family="'Comic Sans MS',cursive" font-size="15" fill="#854F0B" text-anchor="middle">task done!</text>
+  <text x="110" y="212" font-family="'Comic Sans MS',cursive" font-size="13" fill="#D85A30" text-anchor="middle">you nailed it!</text>
+</svg>

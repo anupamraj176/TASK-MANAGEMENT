@@ -1,0 +1,6 @@
+<svg width="200" height="240" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+  <path d="M100,210 Q52,188 58,132 Q66,84 88,68 Q76,104 96,112 Q82,76 110,36 Q122,80 106,100 Q136,80 130,120 Q148,100 144,142 Q158,116 154,158 Q162,180 148,210 Z" fill="#FAC775" stroke="#854F0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M100,210 Q66,194 70,158 Q78,128 96,122 Q88,142 100,150 Q106,128 122,100 Q130,128 116,140 Q142,126 136,160 Q148,140 146,172 Q150,192 136,210 Z" fill="#EF9F27" stroke="#854F0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M100,210 Q80,196 82,172 Q88,150 100,148 Q94,164 104,170 Q112,150 124,158 Q130,178 122,210 Z" fill="#F09595" stroke="#A32D2D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="100" y="232" font-family="'Comic Sans MS',cursive" font-size="14" fill="#D85A30" text-anchor="middle">7 day streak!</text>
+</svg>

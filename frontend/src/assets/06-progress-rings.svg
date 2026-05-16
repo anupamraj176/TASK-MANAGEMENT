@@ -1,0 +1,11 @@
+<svg width="220" height="240" viewBox="0 0 220 240" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="110" cy="110" r="96" fill="none" stroke="#D3D1C7" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="110" cy="110" r="96" fill="none" stroke="#534AB7" stroke-width="16" stroke-linecap="round" stroke-dasharray="603" stroke-dashoffset="211" transform="rotate(-90 110 110)"/>
+  <circle cx="110" cy="110" r="70" fill="none" stroke="#D3D1C7" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="110" cy="110" r="70" fill="none" stroke="#D4537E" stroke-width="14" stroke-linecap="round" stroke-dasharray="440" stroke-dashoffset="132" transform="rotate(-90 110 110)"/>
+  <circle cx="110" cy="110" r="46" fill="none" stroke="#D3D1C7" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="110" cy="110" r="46" fill="none" stroke="#1D9E75" stroke-width="12" stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="58" transform="rotate(-90 110 110)"/>
+  <text x="110" y="104" font-family="'Comic Sans MS',cursive" font-size="22" font-weight="bold" fill="#3C3489" text-anchor="middle">65%</text>
+  <text x="110" y="124" font-family="'Comic Sans MS',cursive" font-size="14" fill="#534AB7" text-anchor="middle">done</text>
+  <text x="110" y="228" font-family="'Comic Sans MS',cursive" font-size="14" fill="#534AB7" text-anchor="middle">progress rings</text>
+</svg>

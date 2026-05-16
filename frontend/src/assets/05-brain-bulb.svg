@@ -1,0 +1,11 @@
+<svg width="220" height="230" viewBox="0 0 220 230" xmlns="http://www.w3.org/2000/svg">
+  <path d="M110,44 Q144,34 152,62 Q168,56 170,78 Q184,82 182,106 Q186,126 168,134 Q170,154 150,156 Q142,174 118,166 Q110,176 102,166 Q82,174 70,156 Q50,154 52,134 Q34,126 38,106 Q36,82 50,78 Q52,56 68,62 Q76,34 110,44 Z" fill="#E1F5EE" stroke="#0F6E56" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M110,44 Q110,78 110,110 Q110,142 110,166" stroke="#1D9E75" fill="none" stroke-width="1.5" stroke-dasharray="5,4" stroke-linecap="round"/>
+  <path d="M52,96 Q80,90 110,104 Q140,90 168,96" stroke="#1D9E75" fill="none" stroke-width="1.5" stroke-dasharray="5,4" stroke-linecap="round"/>
+  <path d="M50,128 Q80,122 110,136 Q140,122 170,128" stroke="#1D9E75" fill="none" stroke-width="1.5" stroke-dasharray="5,4" stroke-linecap="round"/>
+  <ellipse cx="110" cy="24" rx="18" ry="22" fill="#FAEEDA" stroke="#854F0B" stroke-width="2"/>
+  <line x1="103" y1="40" x2="117" y2="40" stroke="#854F0B" stroke-width="2" stroke-linecap="round"/>
+  <line x1="110" y1="40" x2="110" y2="46" stroke="#854F0B" stroke-width="2" stroke-linecap="round"/>
+  <path d="M102,10 Q110,2 118,10" stroke="#EF9F27" fill="none" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="110" y="210" font-family="'Comic Sans MS',cursive" font-size="14" fill="#0F6E56" text-anchor="middle">smart planning</text>
+</svg>

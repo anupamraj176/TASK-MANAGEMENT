@@ -1,0 +1,9 @@
+<svg width="200" height="240" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+  <path d="M55,18 L55,118 Q55,148 100,160 Q145,148 145,118 L145,18 Z" fill="#FAEEDA" stroke="#854F0B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M55,42 Q24,42 24,72 Q24,102 55,96" fill="#FAEEDA" fill-opacity="0.7" stroke="#854F0B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M145,42 Q176,42 176,72 Q176,102 145,96" fill="#FAEEDA" fill-opacity="0.7" stroke="#854F0B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M76,160 L76,188 L124,188 L124,160" fill="#FAC775" stroke="#854F0B" stroke-width="2" stroke-linecap="round"/>
+  <rect x="58" y="185" width="84" height="16" rx="7" fill="#EF9F27" stroke="#854F0B" stroke-width="2"/>
+  <path d="M100,40 L108,64 L134,64 L113,80 L121,104 L100,88 L79,104 L87,80 L66,64 L92,64 Z" fill="#EF9F27" stroke="#854F0B" stroke-width="1.5"/>
+  <text x="100" y="225" font-family="'Comic Sans MS',cursive" font-size="14" fill="#854F0B" text-anchor="middle">top achiever!</text>
+</svg>
