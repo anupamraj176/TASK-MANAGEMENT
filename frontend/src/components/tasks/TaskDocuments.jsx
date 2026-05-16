@@ -9,10 +9,21 @@ function formatBytes(bytes) {
 
 export default function TaskDocuments({ taskId, documents = [] }) {
   const [downloading, setDownloading] = useState(null);
+  const [viewingDoc, setViewingDoc] = useState(null);
+  const [isLoadingView, setIsLoadingView] = useState(null);
 
   const handleView = (doc) => {
-    // Open Cloudinary/S3 URL directly in new tab
-    window.open(doc.url, '_blank', 'noopener,noreferrer');
+    // We use Google Docs Viewer to safely embed the PDF inline 
+    // without triggering a forced download from Cloudinary's raw resource headers.
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(doc.url)}&embedded=true`;
+    setViewingDoc({ url: viewerUrl, name: doc.filename || doc.name || 'Document' });
+  };
+
+  const closeViewer = () => {
+    if (viewingDoc) {
+      window.URL.revokeObjectURL(viewingDoc.url);
+      setViewingDoc(null);
+    }
   };
 
   const handleDownload = async (doc) => {
@@ -80,17 +91,25 @@ export default function TaskDocuments({ taskId, documents = [] }) {
               {/* View */}
               <button
                 onClick={() => handleView(doc)}
+                disabled={isLoadingView === docId}
                 className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium
-                  text-[#5C6AC4] hover:bg-[#5C6AC4] hover:text-white transition-all"
-                title="Open in new tab"
+                  text-[#5C6AC4] hover:bg-[#5C6AC4] hover:text-white transition-all disabled:opacity-60"
+                title="View Document"
               >
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-                View
+                {isLoadingView === docId ? (
+                  <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                ) : (
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                )}
+                {isLoadingView === docId ? 'Opening...' : 'View'}
               </button>
 
               {/* Download */}
@@ -118,6 +137,40 @@ export default function TaskDocuments({ taskId, documents = [] }) {
           </div>
         );
       })}
+
+      {/* PDF Viewer Modal */}
+      {viewingDoc && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-[#1A1A2E]/60 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#E2E4ED] bg-white">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-red-50 border border-red-100 flex items-center justify-center">
+                  <svg className="w-4 h-4 text-[#EF4444]" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z" />
+                  </svg>
+                </div>
+                <h3 className="font-semibold text-[#1A1A2E] truncate max-w-sm">{viewingDoc.name}</h3>
+              </div>
+              <button
+                onClick={closeViewer}
+                className="p-2 text-[#8B8FA8] hover:text-[#1A1A2E] hover:bg-[#F5F6FA] rounded-xl transition-colors"
+                title="Close"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex-1 p-0 min-h-[60vh] bg-[#F5F6FA] relative">
+              <iframe
+                src={viewingDoc.url}
+                className="w-full h-full border-0 absolute inset-0"
+                title={viewingDoc.name}
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
