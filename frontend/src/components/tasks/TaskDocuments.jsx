@@ -141,15 +141,15 @@ export default function TaskDocuments({ taskId, documents = [] }) {
       {/* PDF Viewer Modal */}
       {viewingDoc && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-[#1A1A2E]/60 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[#E2E4ED] bg-white">
+          <div className="bg-white rounded-2xl w-[95vw] max-w-7xl h-[95vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#E2E4ED] bg-white shrink-0">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-red-50 border border-red-100 flex items-center justify-center">
                   <svg className="w-4 h-4 text-[#EF4444]" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z" />
                   </svg>
                 </div>
-                <h3 className="font-semibold text-[#1A1A2E] truncate max-w-sm">{viewingDoc.name}</h3>
+                <h3 className="font-semibold text-[#1A1A2E] truncate max-w-2xl">{viewingDoc.name}</h3>
               </div>
               <button
                 onClick={closeViewer}
@@ -161,10 +161,10 @@ export default function TaskDocuments({ taskId, documents = [] }) {
                 </svg>
               </button>
             </div>
-            <div className="flex-1 p-0 min-h-[60vh] bg-[#F5F6FA] relative">
+            <div className="flex-1 relative bg-[#F5F6FA]">
               <iframe
                 src={viewingDoc.url}
-                className="w-full h-full border-0 absolute inset-0"
+                className="absolute inset-0 w-full h-full border-0"
                 title={viewingDoc.name}
               />
             </div>

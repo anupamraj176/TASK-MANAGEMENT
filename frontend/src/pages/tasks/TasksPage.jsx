@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTasks } from '../../hooks/useTasks';
 import TaskFilters from '../../components/tasks/TaskFilters';
 import TaskTable from '../../components/tasks/TaskTable';
@@ -73,6 +74,16 @@ function Pagination({ pagination, onPageChange }) {
 
 export default function TasksPage() {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Navigate to home page first to avoid ProtectedRoute throwing us to /login
+    navigate('/');
+    // Then clear the session in the background
+    setTimeout(() => {
+      logout();
+    }, 100);
+  };
   const {
     tasks, loading, error, pagination, filters, sort,
     updateFilters, resetFilters, updateSort, goToPage, deleteTask, refetch,
@@ -120,7 +131,7 @@ export default function TasksPage() {
               New Task
             </button>
             <button
-              onClick={logout}
+              onClick={handleLogout}
               className="flex items-center gap-2 px-4 py-2.5 border border-[#E2E4ED] text-[#1A1A2E] text-sm font-medium
                 rounded-xl hover:bg-[#F5F6FA] hover:text-[#EF4444] transition-colors shadow-sm"
               title="Logout"

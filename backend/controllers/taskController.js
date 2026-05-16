@@ -134,12 +134,14 @@ const listTasks = async (req, res) => {
         { $skip: skip },
         { $limit: limit },
       ]);
+      tasks = await Task.populate(tasks, { path: 'assignedTo', select: 'name email profileImage' });
     } else {
       const sortField = ['dueDate', 'createdAt'].includes(sortBy) ? sortBy : 'createdAt';
       tasks = await Task.find(filter)
         .sort({ [sortField]: sortOrder })
         .skip(skip)
-        .limit(limit);
+        .limit(limit)
+        .populate('assignedTo', 'name email profileImage');
     }
 
     res.status(200).json({
@@ -210,6 +212,8 @@ const createTask = async (req, res) => {
       attachedDocuments: attachments,
     });
 
+    await task.populate('assignedTo', 'name email profileImage');
+
     res.status(201).json({ success: true, task });
   } catch (error) {
     console.error('Create task error:', error);
@@ -219,7 +223,7 @@ const createTask = async (req, res) => {
 
 const getTaskById = async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findById(req.params.id).populate('assignedTo', 'name email profileImage');
     if (!task) {
       return res.status(404).json({ success: false, message: 'Task not found' });
     }
@@ -336,6 +340,8 @@ const updateTask = async (req, res) => {
     }
 
     await task.save();
+
+    await task.populate('assignedTo', 'name email profileImage');
 
     res.status(200).json({ success: true, task });
   } catch (error) {
