@@ -12,7 +12,7 @@ const {
   connectTestDb,
   clearTestDb,
   disconnectTestDb,
-} = require('../helpers/testDb');
+} = require('../../test-utils/testDb');
 
 const signupUser = async (payload) =>
   request(app).post('/api/auth/signup').send(payload);

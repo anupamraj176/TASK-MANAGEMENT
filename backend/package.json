@@ -54,7 +54,7 @@
   "jest": {
     "testEnvironment": "node",
     "setupFilesAfterEnv": [
-      "<rootDir>/__tests__/setup.js"
+      "<rootDir>/test-utils/setup.js"
     ],
     "coverageThreshold": {
       "global": {
