@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: task-management-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: ./backend
+    container_name: task-management-backend
+    ports:
+      - "5000:5000"
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/task-management
+      JWT_SECRET: ${JWT_SECRET:-change_me}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME:-}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY:-}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET:-}
+      EMAIL_USER: ${EMAIL_USER:-}
+      EMAIL_APP_PASSWORD: ${EMAIL_APP_PASSWORD:-}
+      CLIENT_URL: ${CLIENT_URL:-http://localhost:5173}
+      MAX_FILE_SIZE: ${MAX_FILE_SIZE:-5242880}
+      MAX_FILES_PER_TASK: ${MAX_FILES_PER_TASK:-3}
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:

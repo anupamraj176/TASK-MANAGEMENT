@@ -48,6 +48,16 @@ npm run test
 ## API Documentation
 
 - Swagger UI: `http://localhost:5000/api/docs`
+- Postman collection: `backend/POSTMAN_COLLECTION.json`
+
+## Docker
+
+From repo root:
+```bash
+docker-compose up --build
+```
+
+Backend will be available at: `http://localhost:5000`
 
 ## Task APIs (Phase 4)
 
