@@ -46,7 +46,7 @@ function EmailVerification() {
         <Input
           type="text"
           inputMode="numeric"
-          placeholder="123456"
+          placeholder="Enter the 6-digit code"
           value={code}
           onChange={(event) => setCode(event.target.value)}
           maxLength={6}

@@ -36,12 +36,38 @@ const parseDateInput = (value) => {
   return parsed;
 };
 
+const parseDocumentIds = (value) => {
+  if (!value) {
+    return [];
+  }
+  if (Array.isArray(value)) {
+    return value.filter(Boolean);
+  }
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return [];
+    }
+    try {
+      const parsed = JSON.parse(trimmed);
+      if (Array.isArray(parsed)) {
+        return parsed.filter(Boolean);
+      }
+    } catch (_error) {
+      // fall through to comma-separated parsing
+    }
+    return trimmed.split(',').map((id) => id.trim()).filter(Boolean);
+  }
+  return [];
+};
+
 const listTasks = async (req, res) => {
   try {
     const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
     const limit = Math.max(parseInt(req.query.limit, 10) || 10, 1);
     const status = req.query.status;
     const priority = req.query.priority;
+    const search = req.query.search;
     const sortBy = req.query.sortBy || 'createdAt';
     const sortOrder = req.query.sortOrder === 'asc' ? 1 : -1;
     const dueDateFrom = req.query.dueDateFrom;
@@ -64,6 +90,9 @@ const listTasks = async (req, res) => {
         return res.status(400).json({ success: false, message: 'Invalid priority filter' });
       }
       filter.priority = priority;
+    }
+    if (search) {
+      filter.title = { $regex: search, $options: 'i' };
     }
     if (dueDateFrom || dueDateTo) {
       const fromDate = parseDateInput(dueDateFrom);
@@ -263,6 +292,7 @@ const updateTask = async (req, res) => {
 
     const files = req.files || [];
     const shouldReplace = String(replaceDocuments).toLowerCase() === 'true';
+    const removeDocumentIds = parseDocumentIds(req.body.removeDocumentIds);
 
     if (shouldReplace) {
       const docsToDelete = task.attachedDocuments || [];
@@ -272,6 +302,20 @@ const updateTask = async (req, res) => {
         }
       }
       task.attachedDocuments = [];
+    } else if (removeDocumentIds.length > 0) {
+      for (const docId of removeDocumentIds) {
+        if (!mongoose.isValidObjectId(docId)) {
+          return res.status(400).json({ success: false, message: 'Invalid document id' });
+        }
+        const document = task.attachedDocuments.id(docId);
+        if (!document) {
+          return res.status(404).json({ success: false, message: 'Document not found' });
+        }
+        if (document.publicId) {
+          await deleteFromCloudinary(document.publicId);
+        }
+        document.remove();
+      }
     }
 
     if (files.length > 0) {

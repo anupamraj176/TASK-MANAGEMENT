@@ -291,6 +291,41 @@ describe('Task Controller', () => {
     expect(res.status).toHaveBeenCalledWith(200);
   });
 
+  it('removes selected documents on update', async () => {
+    const attachedDocuments = [
+      { _id: 'doc1', publicId: 'doc1', remove: jest.fn() },
+      { _id: 'doc2', publicId: 'doc2', remove: jest.fn() },
+    ];
+    attachedDocuments.id = (id) =>
+      attachedDocuments.find((doc) => doc._id === id) || null;
+
+    const taskDoc = {
+      _id: 't1',
+      assignedTo: { toString: () => '1' },
+      attachedDocuments,
+      save: jest.fn().mockResolvedValue(true),
+    };
+
+    Task.findById.mockResolvedValue(taskDoc);
+    jest.spyOn(mongoose, 'isValidObjectId').mockReturnValue(true);
+
+    const res = createRes();
+    await updateTask(
+      {
+        params: { id: 't1' },
+        userId: '1',
+        userRole: 'user',
+        body: { removeDocumentIds: ['doc1'] },
+        files: [],
+      },
+      res
+    );
+
+    expect(deleteFromCloudinary).toHaveBeenCalledWith('doc1');
+    expect(attachedDocuments[0].remove).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(200);
+  });
+
   it('updates assignedTo as admin', async () => {
     Task.findById.mockResolvedValue({
       _id: 't1',

@@ -41,6 +41,10 @@ router.get('/', verifyAuth, listTasks);
  *           type: string
  *           enum: [low, medium, high]
  *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *       - in: query
  *         name: dueDateFrom
  *         schema:
  *           type: string
@@ -165,6 +169,10 @@ router.put('/:id', verifyAuth, upload.array('documents', 3), updateTask);
  *                 type: string
  *               replaceDocuments:
  *                 type: boolean
+ *               removeDocumentIds:
+ *                 type: array
+ *                 items:
+ *                   type: string
  *               documents:
  *                 type: array
  *                 items:

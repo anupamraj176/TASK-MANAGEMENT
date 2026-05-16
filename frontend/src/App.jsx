@@ -6,12 +6,13 @@ import SignUpPage from './pages/auth/SignUpPage'
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage'
 import ResetPasswordPage from './pages/auth/ResetPasswordPage'
 import EmailVerification from './pages/auth/EmailVerification'
-import Dashboard from './pages/Dashboard'
-import AdminDashboard from './pages/AdminDashboard'
+import TaskListPage from './pages/tasks/TaskListPage'
+import TaskDetailPage from './pages/tasks/TaskDetailPage'
 import LoadingSpinner from './components/LoadingSpinner'
 import ProtectedRoute from './routes/ProtectedRoute'
 import AdminRoute from './routes/AdminRoute'
 import { useAuthStore } from './store/authStore'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   const { checkAuth, isCheckingAuth } = useAuthStore()
@@ -26,6 +27,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<Home />} />
 
@@ -45,7 +47,23 @@ function App() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <TaskListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tasks"
+          element={
+            <ProtectedRoute>
+              <TaskListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tasks/:id"
+          element={
+            <ProtectedRoute>
+              <TaskDetailPage />
             </ProtectedRoute>
           }
         />
@@ -53,7 +71,7 @@ function App() {
           path="/admin/dashboard"
           element={
             <AdminRoute>
-              <AdminDashboard />
+              <TaskListPage />
             </AdminRoute>
           }
         />
