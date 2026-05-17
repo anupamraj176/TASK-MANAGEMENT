@@ -3,6 +3,11 @@ if (!globalThis.crypto) {
   globalThis.crypto = require('crypto');
 }
 
+// Force IPv4 DNS resolution globally — Render's container network lacks IPv6 routing,
+// causing ENETUNREACH errors when Node.js tries to connect to Gmail's IPv6 SMTP servers.
+const dns = require('dns');
+dns.setDefaultResultOrder('ipv4first');
+
 require('dotenv').config();
 const http = require('http');
 const connectDB = require('./config/database');
