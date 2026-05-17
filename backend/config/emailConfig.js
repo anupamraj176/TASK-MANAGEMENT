@@ -12,6 +12,7 @@ const transporter = nodemailer.createTransport({
   tls: {
     rejectUnauthorized: false // Prevents cloud certificate resolution delays
   },
+  family: 4, // Forces IPv4 ONLY to bypass Render's broken IPv6 ENETUNREACH network routing
   connectionTimeout: 10000, // Fail fast (10s) instead of hanging
 });
 
