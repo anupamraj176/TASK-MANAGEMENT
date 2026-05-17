@@ -25,7 +25,9 @@ const allowedOrigins = [
   clientUrl.replace(/\/$/, ''), // URL without trailing slash
   clientUrl.replace(/\/$/, '') + '/', // URL with trailing slash
   'http://localhost:5173',
-  'http://localhost:5173/'
+  'http://localhost:5173/',
+  'https://task-management-five-flame.vercel.app',
+  'https://task-management-five-flame.vercel.app/'
 ];
 
 const corsOptions = {
