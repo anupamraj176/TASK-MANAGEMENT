@@ -18,9 +18,25 @@ const app = express();
 
 // Middleware
 app.use(helmet());
-// CORS Configuration for Production & Development (supporting secure cookie session handshakes)
+// CORS Configuration with robust origin validation (handling trailing slash variations automatically)
+const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+const allowedOrigins = [
+  clientUrl,
+  clientUrl.replace(/\/$/, ''), // URL without trailing slash
+  clientUrl.replace(/\/$/, '') + '/', // URL with trailing slash
+  'http://localhost:5173',
+  'http://localhost:5173/'
+];
+
 const corsOptions = {
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, curl, postman, or server-to-server)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 };
 app.use(cors(corsOptions));
