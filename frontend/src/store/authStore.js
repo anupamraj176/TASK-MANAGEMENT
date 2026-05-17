@@ -20,6 +20,8 @@ export const useAuthStore = create((set) => ({
         name,
         role,
       })
+      const token = response.data.token
+      if (token) localStorage.setItem('token', token)
       set({ user: response.data.user, isAuthenticated: true, isLoading: false })
       return response.data
     } catch (error) {
@@ -39,6 +41,8 @@ export const useAuthStore = create((set) => ({
         password,
         role,
       })
+      const token = response.data.token
+      if (token) localStorage.setItem('token', token)
       set({
         user: response.data.user,
         isAuthenticated: true,
@@ -59,6 +63,7 @@ export const useAuthStore = create((set) => ({
     set({ isLoading: true, error: null })
     try {
       await api.post(`${AUTH_URL}/logout`)
+      localStorage.removeItem('token')
       set({ user: null, isAuthenticated: false, error: null, isLoading: false })
     } catch (error) {
       set({ error: 'Error logging out', isLoading: false })
@@ -85,6 +90,8 @@ export const useAuthStore = create((set) => ({
     set({ isLoading: true, error: null })
     try {
       const response = await api.post(`${AUTH_URL}/verify-email`, { code })
+      const token = response.data.token
+      if (token) localStorage.setItem('token', token)
       set({ user: response.data.user, isAuthenticated: true, isLoading: false })
       return response.data
     } catch (error) {
@@ -106,6 +113,7 @@ export const useAuthStore = create((set) => ({
         isCheckingAuth: false,
       })
     } catch (_error) {
+      localStorage.removeItem('token')
       set({ error: null, isCheckingAuth: false, isAuthenticated: false })
     }
   },

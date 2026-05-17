@@ -3,6 +3,15 @@ const jwt = require('jsonwebtoken');
 const verifyAuth = (req, res, next) => {
   let token = req.cookies && req.cookies.token;
 
+  // Fallback 1: check standard authorization header (Bearer token)
+  if (!token && req.headers && req.headers.authorization) {
+    const parts = req.headers.authorization.split(' ');
+    if (parts.length === 2 && parts[0] === 'Bearer') {
+      token = parts[1];
+    }
+  }
+
+  // Fallback 2: check cookie string in headers
   if (!token && req.headers && req.headers.cookie) {
     const cookies = req.headers.cookie.split(';').map((cookie) => cookie.trim());
     const tokenCookie = cookies.find((cookie) => cookie.startsWith('token='));

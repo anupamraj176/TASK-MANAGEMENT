@@ -44,7 +44,7 @@ const signup = async (req, res) => {
 
     await user.save();
 
-    generateTokenAndSetCookie(res, user._id, user.role);
+    const token = generateTokenAndSetCookie(res, user._id, user.role);
 
     try {
       await sendVerificationEmail(user.email, verificationToken);
@@ -55,6 +55,7 @@ const signup = async (req, res) => {
     res.status(201).json({
       success: true,
       message: 'User created successfully. Check your email for verification code.',
+      token,
       user: {
         _id: user._id,
         name: user.name,
@@ -110,7 +111,7 @@ const login = async (req, res) => {
       });
     }
 
-    generateTokenAndSetCookie(res, user._id, user.role);
+    const token = generateTokenAndSetCookie(res, user._id, user.role);
 
     user.lastLogin = new Date();
     await user.save();
@@ -118,6 +119,7 @@ const login = async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'Logged in successfully',
+      token,
       user: {
         _id: user._id,
         name: user.name,
@@ -182,6 +184,8 @@ const verifyEmail = async (req, res) => {
     user.verificationTokenExpiresAt = undefined;
     await user.save();
 
+    const token = generateTokenAndSetCookie(res, user._id, user.role);
+
     try {
       await sendWelcomeEmail(user.email, user.name);
     } catch (emailError) {
@@ -191,6 +195,7 @@ const verifyEmail = async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'Email verified successfully',
+      token,
       user: {
         _id: user._id,
         name: user.name,
