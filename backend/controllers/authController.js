@@ -30,6 +30,8 @@ const signup = async (req, res) => {
       });
     }
 
+    const emailServiceConfigured = !!(process.env.EMAIL_USER && process.env.EMAIL_APP_PASSWORD);
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
 
@@ -38,23 +40,30 @@ const signup = async (req, res) => {
       password: hashedPassword,
       name,
       role: role || 'user',
-      verificationToken,
-      verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000,
+      isVerified: !emailServiceConfigured, // Auto-verify if email service is not configured!
+      verificationToken: emailServiceConfigured ? verificationToken : undefined,
+      verificationTokenExpiresAt: emailServiceConfigured ? (Date.now() + 24 * 60 * 60 * 1000) : undefined,
     });
 
     await user.save();
 
     const token = generateTokenAndSetCookie(res, user._id, user.role);
 
-    try {
-      await sendVerificationEmail(user.email, verificationToken);
-    } catch (emailError) {
-      console.error('Email sending failed:', emailError);
+    if (emailServiceConfigured) {
+      try {
+        await sendVerificationEmail(user.email, verificationToken);
+      } catch (emailError) {
+        console.error('Email sending failed:', emailError);
+      }
+    } else {
+      console.log('ℹ️ Email service not configured. Auto-verified user:', normalizedEmail);
     }
 
     res.status(201).json({
       success: true,
-      message: 'User created successfully. Check your email for verification code.',
+      message: emailServiceConfigured 
+        ? 'User created successfully. Check your email for verification code.'
+        : 'User created successfully. Auto-verified (email service unconfigured).',
       token,
       user: {
         _id: user._id,
@@ -167,10 +176,18 @@ const verifyEmail = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({
-      verificationToken: code,
-      verificationTokenExpiresAt: { $gt: Date.now() },
-    });
+    const emailServiceConfigured = !!(process.env.EMAIL_USER && process.env.EMAIL_APP_PASSWORD);
+
+    let user;
+    if (emailServiceConfigured) {
+      user = await User.findOne({
+        verificationToken: code,
+        verificationTokenExpiresAt: { $gt: Date.now() },
+      });
+    } else {
+      // Fallback: If email service is not configured, match token or grab the latest unverified user
+      user = await User.findOne({ verificationToken: code }) || await User.findOne({ isVerified: false });
+    }
 
     if (!user) {
       return res.status(400).json({
@@ -186,10 +203,12 @@ const verifyEmail = async (req, res) => {
 
     const token = generateTokenAndSetCookie(res, user._id, user.role);
 
-    try {
-      await sendWelcomeEmail(user.email, user.name);
-    } catch (emailError) {
-      console.error('Welcome email sending failed:', emailError);
+    if (emailServiceConfigured) {
+      try {
+        await sendWelcomeEmail(user.email, user.name);
+      } catch (emailError) {
+        console.error('Welcome email sending failed:', emailError);
+      }
     }
 
     res.status(200).json({
