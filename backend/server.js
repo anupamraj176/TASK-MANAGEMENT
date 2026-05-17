@@ -1,3 +1,8 @@
+// Polyfill global crypto for older Node environments (fixes MongoDB ReferenceError: crypto is not defined)
+if (!globalThis.crypto) {
+  globalThis.crypto = require('crypto');
+}
+
 require('dotenv').config();
 const http = require('http');
 const connectDB = require('./config/database');
