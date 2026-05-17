@@ -18,7 +18,12 @@ const app = express();
 
 // Middleware
 app.use(helmet());
-app.use(cors());
+// CORS Configuration for Production & Development (supporting secure cookie session handshakes)
+const corsOptions = {
+  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(morgan('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
