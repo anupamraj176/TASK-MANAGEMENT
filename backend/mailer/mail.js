@@ -1,4 +1,4 @@
-const transporter = require('../config/emailConfig');
+const getTransporter = require('../config/emailConfig');
 const {
   VERIFICATION_EMAIL_TEMPLATE,
   PASSWORD_RESET_REQUEST_TEMPLATE,
@@ -8,6 +8,7 @@ const {
 
 const sendVerificationEmail = async (email, verificationToken) => {
   try {
+    const transporter = await getTransporter();
     const mailOptions = {
       from: `"Task Management" <${process.env.EMAIL_USER}>`,
       to: email,
@@ -24,6 +25,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
 
 const sendWelcomeEmail = async (email, name) => {
   try {
+    const transporter = await getTransporter();
     const mailOptions = {
       from: `"Task Management" <${process.env.EMAIL_USER}>`,
       to: email,
@@ -40,6 +42,7 @@ const sendWelcomeEmail = async (email, name) => {
 
 const sendPasswordResetEmail = async (email, resetURL) => {
   try {
+    const transporter = await getTransporter();
     const mailOptions = {
       from: `"Task Management" <${process.env.EMAIL_USER}>`,
       to: email,
@@ -56,6 +59,7 @@ const sendPasswordResetEmail = async (email, resetURL) => {
 
 const sendResetSuccessEmail = async (email) => {
   try {
+    const transporter = await getTransporter();
     const mailOptions = {
       from: `"Task Management" <${process.env.EMAIL_USER}>`,
       to: email,
