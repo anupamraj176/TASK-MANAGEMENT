@@ -50,11 +50,9 @@ const signup = async (req, res) => {
     const token = generateTokenAndSetCookie(res, user._id, user.role);
 
     if (emailServiceConfigured) {
-      try {
-        await sendVerificationEmail(user.email, verificationToken);
-      } catch (emailError) {
-        console.error('Email sending failed:', emailError);
-      }
+      sendVerificationEmail(user.email, verificationToken).catch((emailError) => {
+        console.error('Email sending failed in background:', emailError);
+      });
     } else {
       console.log('ℹ️ Email service not configured. Auto-verified user:', normalizedEmail);
     }
@@ -204,11 +202,9 @@ const verifyEmail = async (req, res) => {
     const token = generateTokenAndSetCookie(res, user._id, user.role);
 
     if (emailServiceConfigured) {
-      try {
-        await sendWelcomeEmail(user.email, user.name);
-      } catch (emailError) {
-        console.error('Welcome email sending failed:', emailError);
-      }
+      sendWelcomeEmail(user.email, user.name).catch((emailError) => {
+        console.error('Welcome email sending failed in background:', emailError);
+      });
     }
 
     res.status(200).json({
@@ -295,14 +291,12 @@ const forgotPassword = async (req, res) => {
     user.resetPasswordExpiresAt = resetTokenExpiresAt;
     await user.save();
 
-    const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+        const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
     const resetURL = `${clientUrl}/reset-password/${resetToken}`;
 
-    try {
-      await sendPasswordResetEmail(user.email, resetURL);
-    } catch (emailError) {
-      console.error('Password reset email sending failed:', emailError);
-    }
+    sendPasswordResetEmail(user.email, resetURL).catch((emailError) => {
+      console.error('Password reset email sending failed in background:', emailError);
+    });
 
     res.status(200).json({
       success: true,
@@ -349,11 +343,9 @@ const resetPassword = async (req, res) => {
     user.resetPasswordExpiresAt = undefined;
     await user.save();
 
-    try {
-      await sendResetSuccessEmail(user.email);
-    } catch (emailError) {
-      console.error('Reset success email sending failed:', emailError);
-    }
+    sendResetSuccessEmail(user.email).catch((emailError) => {
+      console.error('Reset success email sending failed in background:', emailError);
+    });
 
     res.status(200).json({
       success: true,
