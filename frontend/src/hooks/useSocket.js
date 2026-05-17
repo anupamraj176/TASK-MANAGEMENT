@@ -10,7 +10,7 @@ export function useSocket() {
 
   useEffect(() => {
     if (isAuthenticated && !socketInstance) {
-      socketInstance = io(import.meta.env.VITE_API_URL || 'http://localhost:5000', {
+      socketInstance = io(import.meta.env.VITE_API_URL || (import.meta.env.MODE === 'production' ? window.location.origin : 'http://localhost:5000'), {
         withCredentials: true,
       });
 

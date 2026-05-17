@@ -8,6 +8,7 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+    restart: unless-stopped
 
   backend:
     build: ./backend
@@ -16,17 +17,27 @@ services:
       - "5000:5000"
     environment:
       MONGODB_URI: mongodb://mongo:27017/task-management
-      JWT_SECRET: ${JWT_SECRET:-change_me}
+      JWT_SECRET: ${JWT_SECRET:-change_me_to_a_strong_secret}
       CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME:-}
       CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY:-}
       CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET:-}
       EMAIL_USER: ${EMAIL_USER:-}
       EMAIL_APP_PASSWORD: ${EMAIL_APP_PASSWORD:-}
-      CLIENT_URL: ${CLIENT_URL:-http://localhost:5173}
+      CLIENT_URL: ${CLIENT_URL:-http://localhost}
       MAX_FILE_SIZE: ${MAX_FILE_SIZE:-5242880}
       MAX_FILES_PER_TASK: ${MAX_FILES_PER_TASK:-3}
     depends_on:
       - mongo
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: task-management-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
 
 volumes:
   mongo_data:

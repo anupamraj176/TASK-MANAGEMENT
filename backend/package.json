@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "start": "cross-env NODE_ENV=production node server.js",
+    "start": "node server.js",
     "dev": "cross-env NODE_ENV=development nodemon server.js",
     "test:unit": "jest --coverage",
     "test:integration": "jest --testPathPattern=__tests__/integration",
